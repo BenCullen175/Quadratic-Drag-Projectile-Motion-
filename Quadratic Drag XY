@@ -1,0 +1,28 @@
+GlowScript 3.0 VPython
+R=0.03
+M=0.1
+p=1.2
+csa=pi*R**2
+drag_coefficient=0.47
+
+v0=5
+launch_angle=45*pi/180
+
+l=10
+h=0.5
+
+ground=box(pos=vector(0,0,0), size=vector(l,h,2), color=color.white) 
+ball=sphere(pos=vector(length/-2, height/2+R,0), radius=2*R, make.trail=True) 
+ball.mass=M
+ball.momentum=ball.mass*v0*vector(cos(launch.angle), sin(launch.angle), 0)
+
+t=0
+dt=0.01
+
+while ball.pos.y>h/2+R
+    rate(100)
+    ball.velocity=ball.momentum/ball.mass
+    F=M*g-0.5*p*csa*drag_coefficient*mag(ball.velocity)**2*norm(ball.velocity)
+    ball.momentum=ball.momentum+F*dt
+    ball.position+=ball.position*dt/ball.mass
+    t=t+dt
